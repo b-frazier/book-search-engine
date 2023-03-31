@@ -1,5 +1,11 @@
 const { User } = require('../models');
 
 const resolvers = {
-  Query: {},
+  Query: {
+    users: async () => {
+      return await User.find({});
+    },
+  },
 };
+
+module.exports = resolvers;
