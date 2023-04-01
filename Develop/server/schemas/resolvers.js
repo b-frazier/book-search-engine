@@ -10,8 +10,27 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async () => {
+    addUser: async (p, { body }) => {
       return await User.create(body);
+    },
+    login: async (p, { body }) => {
+      const user = await User.findOne({
+        $or: [{ username: body.username }, { email: body.email }],
+      });
+
+      if (!user) {
+        throw new AuthenticationError('No user found');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
     },
   },
 };
