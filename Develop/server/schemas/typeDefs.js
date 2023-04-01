@@ -6,12 +6,11 @@ const typeDefs = gql`
     username: string
     email: string
     password: string
-    savedBooks: [bookSchema]
+    savedBooks: [Book]
   }
 
   type Query {
-    users: [User]
-    books: [bookSchema]
+    me: [User]
   }
 `;
 module.exports = typeDefs;
